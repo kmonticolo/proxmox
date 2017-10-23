@@ -1,5 +1,5 @@
 ---
-- hosts: pve
+- hosts: pves
   gather_facts: no
   remote_user: root
   vars:
@@ -35,3 +35,20 @@
   - debug: var=r
   - debug: msg="item.stdout={{item.stdout}}"
     with_items: "{{r.results}}"
+
+  - name: set facts
+    set_fact:
+      #"{{ item }}": "{{ item.stdout}}"
+      item: "{{ item.stdout }}"
+    with_items: "{{r.results}}"
+  - debug: var=item
+
+- hosts: router
+  gather_facts: no
+  remote_user: root
+  tasks:
+  - name: iptables
+    command: ping "{{ item }}"
+    #with_items: "{{r.stdout}}"
+    #with_items: "{{r.results}}"
+  tags: router

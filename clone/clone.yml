@@ -1,15 +1,15 @@
 ---
 - hosts: pve
-  vars:
-  vars_files:
-    - /home/kmonti/clone/vars.yml
   gather_facts: no
   remote_user: root
+  vars:
+  vars_files:
+    - /tmp/vars.yml
   tasks:
   - name: Clone for Create New VM
     proxmox_kvm:
       api_user    : root@pam
-      api_password: password
+      api_password: "{{ password }}"
       api_host    : pve
       clone       : open61template
       name        : "{{ item }}" 
@@ -21,9 +21,17 @@
   - name: start vm
     proxmox_kvm:
       api_user    : root@pam
-      api_password: password
+      api_password: "{{ password }}"
       api_host    : pve
       name        : "{{ item }}" 
       node        : pve
       state       : started
     with_items: "{{ contents }}"
+
+  - name: get ip
+    command: getip.sh "{{item}}"
+    register: "r"
+    with_items: "{{ contents }}"
+  - debug: var=r
+  - debug: msg="item.stdout={{item.stdout}}"
+    with_items: "{{r.results}}"

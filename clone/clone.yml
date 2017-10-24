@@ -36,12 +36,15 @@
   - debug: msg="item.stdout={{item.stdout}}"
     with_items: "{{r.results}}"
 
-  - name: set facts
-    set_fact:
-      #"{{ item }}": "{{ item.stdout}}"
-      item: "{{ item.stdout }}"
+  - name: set fact
+    set_fact: ip_item="{{ item }}"
     with_items: "{{r.results}}"
-  - debug: var=item
+    register: ip_result
+
+  - name: make a list
+    set_fact: ipki="{{ ip_result.results | map(attribute='ansible_facts.ip_item') | list }}"
+
+  - debug: var=ipki
 
 - hosts: router
   gather_facts: no

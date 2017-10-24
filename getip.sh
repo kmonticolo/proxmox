@@ -36,7 +36,8 @@ fi
 
 
 # runs arpscan once so will speedup if respawn many times
-${ARPSCAN} -I ${INTERFACE} ${SUBNET} >/tmp/x
+find /tmp/x -type f -mmin +10 -exec rm {} \;
+[ -r /tmp/x ] || ${ARPSCAN} -I ${INTERFACE} ${SUBNET} >/tmp/x
 IP=$(grep  $MAC /tmp/x |awk '{ print $1 }')
 
 #IP=$(${ARPSCAN} -I ${INTERFACE} ${SUBNET} |grep $MAC |awk '{ print $1 }')

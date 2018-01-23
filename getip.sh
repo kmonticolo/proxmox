@@ -20,7 +20,7 @@ if [ -z $VMID ]; then {
 }
 fi
 
-MAC=$(/usr/sbin/qm config $VMID |grep net |sed -e 's/^.*virtio=//' -e 's/,.*$//' | tr [:upper:] [:lower:])
+MAC=$(/usr/sbin/qm config $VMID |grep net |sed  -e 's/,.*$//' -e 's/^.*=//' | tr [:upper:] [:lower:])
 if [ -z $MAC ]; then {
   echo "Cannot get MAC address for $NAME"
   exit 3

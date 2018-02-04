@@ -1,15 +1,15 @@
 ---
-- hosts: pve
+- hosts: pves
   vars:
   vars_files:
-    - /home/kmonti/clone/vars.yml
+    - /tmp/vars.yml
   gather_facts: no
   remote_user: root
   tasks:
   - name: stop vm
     proxmox_kvm:
       api_user    : root@pam
-      api_password: password
+      api_password: "{{ password }}"
       api_host    : pve
       name        : "{{ item }}" 
       node        : pve
@@ -20,7 +20,7 @@
   - name: destroy vm
     proxmox_kvm:
       api_user    : root@pam
-      api_password: password
+      api_password: "{{ password }}"
       api_host    : pve
       name        : "{{ item }}" 
       node        : pve

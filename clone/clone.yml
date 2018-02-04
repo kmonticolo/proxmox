@@ -1,5 +1,5 @@
 ---
-- hosts: pve
+- hosts: pves
   gather_facts: no
   remote_user: root
   vars:
@@ -11,27 +11,29 @@
       api_user    : root@pam
       api_password: "{{ password }}"
       api_host    : pve
-      clone       : open61template
+      #clone       : open61template
       name        : "{{ item }}" 
       node        : pve
       format      : raw
       timeout     : 300  
+      net         : '{"net0":"virtio,bridge=vmbr1,rate=200"}'
+      virtio: '{"ide0":"{{ storage }}:{{ disk_size }},cache=writeback"}'
+      cores: 1
+      memory: "{{ memory_size }}"
+      balloon: 512
     with_items: "{{ contents }}"
+    #with_items: "smoke1"
 
-  - name: start vm
+  - name: start
     proxmox_kvm:
       api_user    : root@pam
       api_password: "{{ password }}"
       api_host    : pve
+      #clone       : open61template
       name        : "{{ item }}" 
       node        : pve
-      state       : started
+      timeout     : 300  
+      state: started
     with_items: "{{ contents }}"
+    #with_items: "smoke1"
 
-  - name: get ip
-    command: getip.sh "{{item}}"
-    register: "r"
-    with_items: "{{ contents }}"
-  - debug: var=r
-  - debug: msg="item.stdout={{item.stdout}}"
-    with_items: "{{r.results}}"

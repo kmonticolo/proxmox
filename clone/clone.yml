@@ -16,6 +16,8 @@
       format      : qcow
       timeout     : 300  
     with_items: "{{ machines }}"
+  - pause:
+      seconds: 2
 
   - name: start vm
     proxmox_kvm:

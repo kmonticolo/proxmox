@@ -1,5 +1,5 @@
 ---
-- hosts: pve
+- hosts: pves
   vars:
   vars_files:
     - /home/kmonti/vars.yml
@@ -16,7 +16,7 @@
       state	  : stopped
       force       : yes
       timeout     : 300  
-    with_items: "{{ contents }}"
+    with_items: "{{ machines }}"
 
   - name: destroy vm
     proxmox_kvm:
@@ -26,4 +26,4 @@
       name        : "{{ item }}" 
       node        : pve
       state       : absent
-    with_items: "{{ contents }}"
+    with_items: "{{ machines }}"

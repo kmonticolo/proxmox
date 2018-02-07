@@ -34,7 +34,12 @@ if [ -z $ARPSCAN ]; then {
 }
 fi
 
-IP=$(${ARPSCAN} -I ${INTERFACE} ${SUBNET} |grep $MAC |awk '{ print $1 }')
+# runs arpscan once so will speedup if respawn many times
+find /tmp/x -type f -mmin +10 -exec rm {} \; >/dev/null 2>&1
+[ -r /tmp/x ] || ${ARPSCAN} -I ${INTERFACE} ${SUBNET} >/tmp/x
+IP=$(grep  $MAC /tmp/x |awk '{ print $1 }')
+
+#IP=$(${ARPSCAN} -I ${INTERFACE} ${SUBNET} |grep $MAC |awk '{ print $1 }')
 if [ -z $IP ]; then {
   echo "Cannot get IP address for $NAME"
   exit 5

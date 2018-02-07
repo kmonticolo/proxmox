@@ -4,25 +4,27 @@
   remote_user: root
   vars:
   vars_files:
-    - /tmp/vars.yml
+    - /home/kmonti/vars.yml
   tasks:
-  - name: Clone for Create New VM
+  - name: Create New VM
     proxmox_kvm:
       api_user    : root@pam
       api_password: "{{ password }}"
       api_host    : pve
-      #clone       : open61template
       name        : "{{ item }}" 
       node        : pve
-      format      : raw
+      format      : qcow
       timeout     : 300  
       net         : '{"net0":"virtio,bridge=vmbr1,rate=200"}'
       virtio: '{"ide0":"{{ storage }}:{{ disk_size }},cache=writeback"}'
       cores: 1
       memory: "{{ memory_size }}"
       balloon: 512
-    with_items: "{{ contents }}"
-    #with_items: "smoke1"
+      net         : '{"net0":"virtio,bridge=vmbr0,rate=200"}'
+      virtio: '{"virtio0":"{{ storage }}:{{ disk_size }}"}'
+    with_items: "{{ machines }}"
+  - pause:
+      seconds: 3
 
   - name: start
     proxmox_kvm:
@@ -32,8 +34,6 @@
       #clone       : open61template
       name        : "{{ item }}" 
       node        : pve
-      timeout     : 300  
-      state: started
-    with_items: "{{ contents }}"
-    #with_items: "smoke1"
+      state       : started
+    with_items: "{{ machines }}"
 

@@ -1,3 +1,11 @@
 ---
-contents: ["smoke1","smoke2","smoke3"]
-
+- proxmox_kvm:
+  #api_user    : root@pam
+  password: changeme
+  #api_host    : 192.168.1.115
+  #name        : testowy 
+  #node        : 192.168.1.115
+  storage: local-lvm 
+  disk_size: 5
+  memory_size: 512
+  machines: pxeansible

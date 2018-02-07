@@ -6,7 +6,7 @@
   vars_files:
     - /home/kmonti/vars.yml
   tasks:
-  - name: Clone for Create New VM
+  - name: Create New VM
     proxmox_kvm:
       api_user    : root@pam
       api_password: "{{ password }}"
@@ -15,7 +15,7 @@
       node        : pve
       format      : qcow
       timeout     : 300  
-    with_items: "{{ contents }}"
+    with_items: "{{ machines }}"
 
   - name: start vm
     proxmox_kvm:
@@ -25,5 +25,5 @@
       name        : "{{ item }}" 
       node        : pve
       state       : started
-    with_items: "{{ contents }}"
+    with_items: "{{ machines }}"
 

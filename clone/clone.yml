@@ -28,30 +28,3 @@
       state       : started
     with_items: "{{ contents }}"
 
-  - name: get ip
-    command: getip.sh "{{item}}"
-    register: "r"
-    with_items: "{{ contents }}"
-  - debug: var=r
-  - debug: msg="item.stdout={{item.stdout}}"
-    with_items: "{{r.results}}"
-
-  - name: set fact
-    set_fact: ip_item="{{ item }}"
-    with_items: "{{r.results}}"
-    register: ip_result
-
-  - name: make a list
-    set_fact: ipki="{{ ip_result.results | map(attribute='ansible_facts.ip_item') | list }}"
-
-  - debug: var=ipki
-
-- hosts: router
-  gather_facts: no
-  remote_user: root
-  tasks:
-  - name: iptables
-    command: ping "{{ item }}"
-    #with_items: "{{r.stdout}}"
-    #with_items: "{{r.results}}"
-  tags: router

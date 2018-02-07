@@ -14,7 +14,7 @@
       clone       : open61template
       name        : "{{ item }}" 
       node        : pve
-      format      : raw
+      format      : qcow
       timeout     : 300  
     with_items: "{{ contents }}"
 

@@ -2,8 +2,7 @@
 - hosts: pve
   vars:
   vars_files:
-    #- /home/kmonti/clone/vars.yml
-    - /tmp/vars.yml
+    - /home/kmonti/vars.yml
   gather_facts: no
   remote_user: root
   tasks:

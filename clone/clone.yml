@@ -4,7 +4,7 @@
   remote_user: root
   vars:
   vars_files:
-    - /tmp/vars.yml
+    - /home/kmonti/vars.yml
   tasks:
   - name: Clone for Create New VM
     proxmox_kvm:

@@ -15,8 +15,6 @@
       node        : pve
       format      : qcow
       timeout     : 300  
-      net         : '{"net0":"virtio,bridge=vmbr1,rate=200"}'
-      virtio: '{"ide0":"{{ storage }}:{{ disk_size }},cache=writeback"}'
       cores: 1
       memory: "{{ memory_size }}"
       balloon: 512

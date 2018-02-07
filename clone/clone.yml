@@ -19,7 +19,7 @@
 
     with_items: "{{ machines }}"
   - pause:
-      seconds: 2
+      seconds: 3
 
   - name: start vm
     proxmox_kvm:

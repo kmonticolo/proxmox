@@ -15,6 +15,8 @@
       node        : pve
       format      : qcow
       timeout     : 300  
+      net         : '{"net0":"virtio,bridge=vmbr0,rate=200"}'
+
     with_items: "{{ machines }}"
   - pause:
       seconds: 2

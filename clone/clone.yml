@@ -16,7 +16,7 @@
       format      : qcow
       timeout     : 300  
       net         : '{"net0":"virtio,bridge=vmbr0,rate=200"}'
-      virtio: '{"virtio0":"local-lvm:5"}'
+      virtio: '{"virtio0":"{{ storage }}:{{ disk_size }}"}'
 
 
     with_items: "{{ machines }}"

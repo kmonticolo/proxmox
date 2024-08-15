@@ -1,4 +1,9 @@
 #!/bin/bash
+# kmonticolo 15.8.24
+# Skrypt wykrywa po zadanym tagu w proxmox hosty, ktore powinny być w osobnych grupach HA
+# VM są rozmieszczone na nodach i skrypt wykrywa, gdy hosty umieszczone są w tej samej grupie HA
+# moze sluzyc jako skrypt ha do przenoszenia vmek z tym samym tagiem do osobnych grup
+
 TAG="carp"
 # Wyniki pierwszej komendy (numery VM)
 vm_numbers=$(grep -Rilw "$TAG" /etc/pve/nodes/pve*|xargs basename -a | sed 's/.conf//')
